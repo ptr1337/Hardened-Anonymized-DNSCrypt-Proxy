@@ -13,7 +13,7 @@ A flexible DNS proxy, with support for modern encrypted DNS protocols such as [D
 
 - ## Why This Project ?
 
-There Are Automated DNSCrypt-Proxy Client For Both [Windows](https://github.com/bitbeans/SimpleDnsCrypt) & [Android (Magisk Module)](https://git.nixnet.xyz/quindecim/dnscrypt-proxy-android) <br/>
+There Are Automated DNSCrypt-Proxy Client For Both [Windows](https://github.com/bitbeans/SimpleDnsCrypt) & [Android (Magisk Module)](https://codeberg.org/quindecim/dnscrypt-proxy-android) <br/>
 But For Linux, People Find It Hard To Configure DNSCrypt-Proxy Manually. But I Wanted To Keep It Simple, So It's Here !
 
 
