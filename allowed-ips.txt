@@ -1,0 +1,11 @@
+
+##############################
+#        IP allowlist        #
+##############################
+
+## Author : BL4CKH47H4CK3R : https://github.com/BL4CKH47H4CK3R
+##
+##
+##
+##
+## This is just a placeholder for who want to use a whitelist file.

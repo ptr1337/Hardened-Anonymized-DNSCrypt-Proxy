@@ -1,0 +1,80 @@
+<h1 align=center>Hardened-Anonymized-DNSCrypt-Proxy</h1>
+<p align=center>Wipe Snoopers Out Of Your Networks</p>
+
+
+A flexible DNS proxy, with support for modern encrypted DNS protocols such as [DNSCrypt v2](https://dnscrypt.info/protocol), [DNS-over-HTTPS](https://www.rfc-editor.org/rfc/rfc8484.txt) and [Anonymized DNSCrypt](https://github.com/DNSCrypt/dnscrypt-protocol/blob/master/ANONYMIZED-DNSCRYPT.txt).
+
+
+- ## Features
+
+- For all features please refer to the [OFFICIAL PAGE](https://github.com/DNSCrypt/dnscrypt-proxy#features)
+- All binary files are downloaded from the [OFFICIAL RELEASE PAGE](https://github.com/DNSCrypt/dnscrypt-proxy/releases)
+
+
+- ## Why This Project ?
+
+There Are Automated DNSCrypt-Proxy Client For Both [Windows](https://github.com/bitbeans/SimpleDnsCrypt) & [Android (Magisk Module)](https://git.nixnet.xyz/quindecim/dnscrypt-proxy-android) <br/>
+But For Linux, People Find It Hard To Configure DNSCrypt-Proxy Manually. But I Wanted To Keep It Simple, So It's Here !
+
+
+- ## Supported Linux Distributions
+
+- `Alpine`
+- `Fedora`
+- `Gentoo`
+- `Mageia`
+- `OpenSUSE`
+- `Solus`
+- `Arch / Arch Based Linux`
+- `Debian / Debian Based Linux`
+
+- ## Differences from the main dnscrypt-proxy project
+
+- `server_names` = `acsacsar-ams-ipv4` [NLD], `arvind-io` [IND], `bcn-dnscrypt` [ESP], `d0wn-tz-ns1` [TZA], `dnscrypt.be` [BEL], `dnscrypt.ca-1` [CAN], `dnscrypt.ca-2` [CAN], `dnscrypt.eu-dk` [DNK], `dnscrypt.eu-nl` [NLD], `dnscrypt.one` [DEU], `dnscrypt.pl` [POL], `dnscrypt.uk-ipv4` [GBR], `ev-canada` [CAN], `freetsa.org-ipv4` [CAN] `jp.tiar.app` [JPN], `meganerd` [NLD], `moulticast-ca-ipv4` [CAN], `moulticast-de-ipv4` [DEU], `moulticast-fr-ipv4` [FRA], `moulticast-sg-ipv4` [SGP], `moulticast-uk-ipv4` [GBR], `plan9-dns` [USA], `publicarray-au` [AUS], `pwoss.org-dnscrypt` [DEU], `sarpel-dns-istanbul` [TUR], `scaleway-ams` [NLD], `scaleway-fr` [FRA], `serbica` [NLD], `v.dnscrypt.uk-ipv4` [GBR], `ventricle.us` [USA] are the resolvers in use.
+
+- `doh_servers` = `false` (disable servers implementing the `DNS-over-HTTPS` protocol)
+
+- `require_dnssec` = `true` (server must support `DNSSEC` security extension)
+
+- `timeout` = `1000` (set the max. response time of a single DNS query from `5000` to `1000` ms.)
+
+- `blocked_query_response` = `'refused'` (set `refused` response to blocked queries)
+
+- `dnscrypt_ephemeral_keys` = `true` (create a new, unique key for every single DNS query)
+
+- `fallback_resolvers` = `['91.239.100.100:53']` (use [UncensoredDNS](https://blog.uncensoreddns.org/) instead [CloudFlare](https://iscloudflaresafeyet.com/))
+
+- `netprobe_address` = `'91.239.100.100:53'` (use [UncensoredDNS](https://blog.uncensoreddns.org/) instead [CloudFlare](https://iscloudflaresafeyet.com/))
+
+- `block_ipv6` = `true` (immediately respond to IPv6-related queries with an empty response)
+
+- `blocked_names_file`, `blocked_ips_file`, `allowed_names_file` and `allowed_ips_file` options enabled. (you can now filter your web content, to know how, please refer to the [official documentation](https://github.com/DNSCrypt/dnscrypt-proxy/wiki/Filters) or take a look at my [block repository](https://git.nixnet.services/quindecim/block))
+
+- `anonymized_dns` feature enabled. (`routes` are indirect ways to reach DNSCrypt servers, each resolver has 2 relays assigned)
+
+- `skip_incompatible` = `true` (skip resolvers incompatible with anonymization instead of using them directly)
+
+- `direct_cert_fallback` = `false` (prevent direct connections through the resolvers for failed certificate retrieved via relay)
+
+
+- ## Configure/Deconfigure [Copy-Paste]
+```
+git clone https://github.com/BL4CKH47H4CK3R/Hardened-Anonymized-DNSCrypt-Proxy.git && cd "$(basename "$_" .git)"
+chmod +x run.sh && sudo ./run.sh
+```
+
+- ## DNS Leak Testing [Websites]
+- [BrowserLeaks](https://anon.to/?http://browserleaks.com/dns)
+- [IPLeak](https://anon.to/?http://ipleak.net)
+- [DNSLeakTest](https://anon.to/?https://www.dnsleaktest.com)
+
+### Configuration (post-installing)
+
+- You can edit `dnscrypt-proxy.toml` as you wish located on `/etc/dnscrypt-proxy/dnscrypt-proxy.toml`.
+- For more detailed configuration please refer to [official documentation](https://github.com/DNSCrypt/dnscrypt-proxy/wiki/Configuration).
+
+## Credits
+
+- ## All Credit Goes To -
+[Frank Denis](https://github.com/jedisct1) & All Other Contributors
+For This Awesome [Project](https://github.com/DNSCrypt/dnscrypt-proxy) !
