@@ -9,7 +9,7 @@ title()
 	echo -e "--------------------------------------------"
 }
 
-gateway=$(ip r | head -1 | cut -c 13- | cut -c -12)
+gateway=$(ip r | tail -1 | cut -d " " -f 1)
 	
 if [[ ${UID} != 0 ]]
 then
@@ -241,7 +241,7 @@ else
 			echo -e "------------------------------------------------------------------------"
 			echo -e "|   Checking Hardened-Anonymized-DNSCrypt-Proxy Service Status . . .   |"
 			echo -e "------------------------------------------------------------------------"
-			dnscrypt-proxy -show-certs
+			dnscrypt-proxy -config /etc/dnscrypt-proxy.toml -show-certs
 
 			echo -e "-----------------------------------------"
 			echo -e "|   Hardened-Anonymized-DNSCrypt-Proxy  |"
