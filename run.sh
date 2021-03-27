@@ -11,7 +11,7 @@ title()
 
 gateway=$(ip r | tail -1 | cut -d " " -f 1)
 	
-if [[ ${UID} != 0 ]]
+if ! [ ${UID} == 0 ]
 then
 	clear && title
 	echo -e "----------------------------"
@@ -26,27 +26,27 @@ else
 	echo -e "-----------------------"
 	read -p "[*] Enter Choice [1, 2, 3]: " input
 
-	if [[ ${input} == 1 ]]
+	if [ ${input} == 1 ]
 	then
 		clear && title
 		echo -e "-------------------------------"
 		echo -e "|  Installing DNSCrypt-Proxy  |"
 		echo -e "-------------------------------"
 
-		if [[ -f /bin/dnscrypt-proxy ]]
+		if [ -f /bin/dnscrypt-proxy ]
 		then
 			echo -e "-------------------------"
 			echo -e "  DNSCrypt-Proxy Found  |"
 			echo -e "-------------------------"
 
-		elif [[ -f /bin/pacman ]]
+		elif [ -f /bin/pacman ]
 		then
 			echo -e "-------------------------------------"
 			echo -e "|  Detected OS : Arch / Arch Based  |"
 			echo -e "-------------------------------------"
-			pacman -Sy dnscrypt-proxy --needed
+			pacman -Sy dnscrypt-proxy
 
-		elif [[ -f /bin/apt ]]
+		elif [ -f /bin/apt ]
 		then
 			echo -e "-----------------------------------------"
 			echo -e "|  Detected OS : Debian / Debian Based  |"
@@ -54,14 +54,14 @@ else
 			curl -O http://ftp.debian.org/debian/pool/main/d/dnscrypt-proxy/dnscrypt-proxy_2.0.45+ds1-1_amd64.deb
 			apt install dnscrypt-proxy_2.0.45+ds1-1_amd64.deb && rm -rf dnscrypt-proxy_2.0.45+ds1-1_amd64.deb
 
-		elif [[ -f /bin/emerge ]]
+		elif [ -f /bin/emerge ]
 		then
 			echo -e "--------------------------"
 			echo -e "|  Detected OS : Gentoo  |"
 			echo -e "--------------------------"
 			emerge -av dnscrypt-proxy
 
-		elif [[ -f /bin/apk ]]
+		elif [ -f /bin/apk ]
 		then
 			echo -e "--------------------------"
 			echo -e "|  Detected OS : Alpine  |"
@@ -69,28 +69,28 @@ else
 			curl -O http://dl-cdn.alpinelinux.org/alpine/edge/community/x86_64/dnscrypt-proxy-2.0.45-r0.apk
 			apk add --allow-untrusted dnscrypt-proxy-2.0.45-r0.apk && rm -rf dnscrypt-proxy-2.0.45-r0.apk
 		
-		elif [[ -f /bin/dnf ]]
+		elif [ -f /bin/dnf ]
 		then
 			echo -e "--------------------------"
 			echo -e "|  Detected OS : Fedora  |"
 			echo -e "--------------------------"
 			dnf install dnscrypt-proxy
 
-		elif [[ -f /bin/urpmi ]]
+		elif [ -f /bin/urpmi ]
 		then
 			echo -e "--------------------------"
 			echo -e "|  Detected OS : Mageia  |"
 			echo -e "--------------------------"
 			urpmi dnscrypt-proxy
 
-		elif [[ -f /bin/zypper ]]
+		elif [ -f /bin/zypper ]
 		then
 			echo -e "----------------------------"
 			echo -e "|  Detected OS : OpenSUSE  |"
 			echo -e "----------------------------"
 			zypper in dnscrypt-proxy
 
-		elif [[ -f /bin/eopkg ]]
+		elif [ -f /bin/eopkg ]
 		then
 			echo -e "-------------------------"
 			echo -e "|  Detected OS : Solus  |"
@@ -135,7 +135,7 @@ else
 		echo -e "|       Successfully Configured !      |"
 		echo -e "----------------------------------------"
 
-	elif [[ ${input} == 2 ]]
+	elif [ ${input} == 2 ]
 	then
 		clear && title
 		echo -e
@@ -143,62 +143,62 @@ else
 		echo -e "|  Uninstalling DNSCrypt-Proxy  |"
 		echo -e "---------------------------------"
 
-		if ! [[ -f /bin/dnscrypt-proxy ]]
+		if ! [ -f /bin/dnscrypt-proxy ]
 		then
 			echo -e "------------------------------"
 			echo -e "|  DNSCrypt-Proxy Not Found  |"
 			echo -e "------------------------------"
 
-		elif [[ -f /bin/pacman ]]
+		elif [ -f /bin/pacman ]
 		then
 			echo -e "-------------------------------------"
 			echo -e "|  Detected OS : Arch / Arch Based  |"
 			echo -e "-------------------------------------"
 			pacman -Rcnsu dnscrypt-proxy
 
-		elif [[ -f /bin/apt ]]
+		elif [ -f /bin/apt ]
 		then
 			echo -e "-----------------------------------------"
 			echo -e "|  Detected OS : Debian / Debian Based  |"
 			echo -e "-----------------------------------------"
 			apt purge dnscrypt-proxy
 
-		elif [[ -f /bin/emerge ]]
+		elif [ -f /bin/emerge ]
 		then
 			echo -e "--------------------------"
 			echo -e "|  Detected OS : Gentoo  |"
 			echo -e "--------------------------"
 			emerge -Cav dnscrypt-proxy
 
-		elif [[ -f /bin/apk ]]
+		elif [ -f /bin/apk ]
 		then
 			echo -e "--------------------------"
 			echo -e "|  Detected OS : Alpine  |"
 			echo -e "--------------------------"
 			apk del dnscrypt-proxy
 
-		elif [[ -f /bin/dnf ]]
+		elif [ -f /bin/dnf ]
 		then
 			echo -e "--------------------------"
 			echo -e "|  Detected OS : Fedora  |"
 			echo -e "--------------------------"
 			dnf remove dnscrypt-proxy
 
-		elif [[ -f /bin/urpmi ]]
+		elif [ -f /bin/urpmi ]
 		then
 			echo -e "--------------------------"
 			echo -e "|  Detected OS : Mageia  |"
 			echo -e "--------------------------"
 			urpme dnscrypt-proxy
 
-		elif [[ -f /bin/zypper ]]
+		elif [ -f /bin/zypper ]
 		then
 			echo -e "----------------------------"
 			echo -e "|  Detected OS : OpenSUSE  |"
 			echo -e "----------------------------"
 			zypper rm dnscrypt-proxy
 
-		elif [[ -f /bin/eopkg ]]
+		elif [ -f /bin/eopkg ]
 		then
 			echo -e "-------------------------"
 			echo -e "|  Detected OS : Solus  |"
@@ -236,7 +236,7 @@ else
 		echo -e "|     Successfully Deconfigured !      |"
 		echo -e "----------------------------------------"
 		
-	elif [[ ${input} == 3 ]]
+	elif [ ${input} == 3 ]
 	then
 		clear && title
 		echo -e "-------------------------"
@@ -247,7 +247,7 @@ else
 		echo -e "-------------------------"
 		read -p "[*] Enter Choice [1, 2, 3, 4]: " input
 
-		if [[ ${input} == 1 ]]
+		if [ ${input} == 1 ]
 		then
 			clear && title
 			echo -e "----------------------------------------------------------------"
@@ -260,7 +260,7 @@ else
 			echo -e "|        Successfully Checked !        |"
 			echo -e "----------------------------------------"
 
-		elif [[ ${input} == 2 ]]
+		elif [ ${input} == 2 ]
 		then
 			clear && title
 			systemctl disable --now systemd-resolved -f
@@ -275,7 +275,7 @@ else
 			echo -e "|        Successfully Enabled !        |"
 			echo -e "----------------------------------------"
 			
-		elif [[ ${input} == 3 ]]
+		elif [ ${input} == 3 ]
 		then
 			clear && title
 			systemctl disable --now dnscrypt-proxy.socket dnscrypt-proxy.service -f
@@ -290,7 +290,7 @@ else
 			echo -e "|       Successfully Disabled !        |"
 			echo -e "----------------------------------------"
 			
-		elif [[ ${input} == 4 ]]
+		elif [ ${input} == 4 ]
 		then
 			clear && title
 			dnscrypt-proxy -service restart
