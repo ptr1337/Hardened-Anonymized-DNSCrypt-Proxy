@@ -42,7 +42,7 @@ But For Linux, People Find It Hard To Configure DNSCrypt-Proxy Manually. But I W
 
 - `dnscrypt_ephemeral_keys` = `true` (create a new, unique key for every single DNS query)
 
-- `bootstrap_resolvers` = `['91.239.100.100:53']` (use [UncensoredDNS](https://blog.uncensoreddns.org/) instead [CloudFlare](https://iscloudflaresafeyet.com/))
+- `fallback_resolvers` = `['91.239.100.100:53']` (use [UncensoredDNS](https://blog.uncensoreddns.org/) instead [CloudFlare](https://iscloudflaresafeyet.com/))
 
 - `netprobe_address` = `'91.239.100.100:53'` (use [UncensoredDNS](https://blog.uncensoreddns.org/) instead [CloudFlare](https://iscloudflaresafeyet.com/))
 
