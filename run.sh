@@ -127,7 +127,7 @@ else
 		echo -e "ethernet.cloned-mac-address=random" >> /etc/NetworkManager/NetworkManager.conf
 		echo -e "wifi.cloned-mac-address=random\n" >> /etc/NetworkManager/NetworkManager.conf
 		echo -e "[main]\ndns=none" >> /etc/NetworkManager/NetworkManager.conf
-		echo -e "nameserver 0.0.0.0\noptions edns0 single-request-reopen" > /etc/resolv.conf
+		echo -e "nameserver 127.0.0.1\noptions edns0 single-request-reopen" > /etc/resolv.conf
 		systemctl restart --now NetworkManager -f
 		
 		echo -e "----------------------------------------"
@@ -226,9 +226,9 @@ else
 		echo -e "---------------------------------------------"
 		rm -rf /etc/resolv.conf /etc/resolv.conf.bak
 		rm -rf /etc/NetworkManager/NetworkManager.conf /etc/NetworkManager/NetworkManager.conf.bak		
-		echo -e "[device]\nwifi.scan-rand-mac-address=yes\n" >> /etc/NetworkManager/NetworkManager.conf
-		echo -e "ethernet.cloned-mac-address=random\n" >> /etc/NetworkManager/NetworkManager.conf
-		echo -e "wifi.cloned-mac-address=random" >> /etc/NetworkManager/NetworkManager.conf
+		echo -e "[device]\nwifi.scan-rand-mac-address=yes" >> /etc/NetworkManager/NetworkManager.conf
+		echo -e "ethernet.cloned-mac-address=random" >> /etc/NetworkManager/NetworkManager.conf
+		echo -e "wifi.cloned-mac-address=random\n" >> /etc/NetworkManager/NetworkManager.conf
 		echo -e "nameserver ${gateway}" > /etc/resolv.conf && systemctl restart --now NetworkManager -f
 
 		echo -e "----------------------------------------"
@@ -267,7 +267,7 @@ else
 			systemctl enable --now dnscrypt-proxy.socket dnscrypt-proxy.service -f
 			dnscrypt-proxy -service start
 			rm -rf /etc/resolv.conf
-			echo -e "nameserver 0.0.0.0\noptions edns0 single-request-reopen" > /etc/resolv.conf
+			echo -e "nameserver 127.0.0.1\noptions edns0 single-request-reopen" > /etc/resolv.conf
 			systemctl restart --now NetworkManager -f
 			
 			echo -e "----------------------------------------"
@@ -295,7 +295,7 @@ else
 			clear && title
 			dnscrypt-proxy -service restart
 			rm -rf /etc/resolv.conf
-			echo -e "nameserver 0.0.0.0\noptions edns0 single-request-reopen" > /etc/resolv.conf
+			echo -e "nameserver 127.0.0.1\noptions edns0 single-request-reopen" > /etc/resolv.conf
 			systemctl restart --now NetworkManager -f
 						
 			echo -e "----------------------------------------"
