@@ -249,6 +249,5 @@ else
 		echo -e "|        Successfully Checked !        |"
 		echo -e "----------------------------------------"
 
-		fi
 	fi
 fi
