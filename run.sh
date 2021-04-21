@@ -54,13 +54,6 @@ else
 			curl -O http://ftp.debian.org/debian/pool/main/d/dnscrypt-proxy/dnscrypt-proxy_2.0.45+ds1-1_amd64.deb
 			apt install dnscrypt-proxy_2.0.45+ds1-1_amd64.deb && rm -rf dnscrypt-proxy_2.0.45+ds1-1_amd64.deb
 
-		elif [ -f /bin/emerge ]
-		then
-			echo -e "--------------------------"
-			echo -e "|  Detected OS : Gentoo  |"
-			echo -e "--------------------------"
-			emerge -av dnscrypt-proxy
-
 		elif [ -f /bin/apk ]
 		then
 			echo -e "--------------------------"
@@ -162,13 +155,6 @@ else
 			echo -e "|  Detected OS : Debian / Debian Based  |"
 			echo -e "-----------------------------------------"
 			apt purge dnscrypt-proxy
-
-		elif [ -f /bin/emerge ]
-		then
-			echo -e "--------------------------"
-			echo -e "|  Detected OS : Gentoo  |"
-			echo -e "--------------------------"
-			emerge -Cav dnscrypt-proxy
 
 		elif [ -f /bin/apk ]
 		then
