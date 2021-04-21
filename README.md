@@ -23,7 +23,6 @@ But For Linux, People Find It Hard To Configure DNSCrypt-Proxy Manually. But I W
 - `Alpine`
 - `Fedora`
 - `Mageia`
-- `Gentoo`
 - `OpenSUSE`
 - `Arch / Arch Based Linux`
 - `Debian / Debian Based Linux`
