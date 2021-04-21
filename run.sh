@@ -22,7 +22,7 @@ else
 	echo -e "-----------------------"
 	echo -e "|  [1] Configure      |"
 	echo -e "|  [2] Deconfigure    |"
-	echo -e "|  [3] Configuration  |"
+	echo -e "|  [3] Check Service  |"
 	echo -e "-----------------------"
 	read -p "[*] Enter Choice [1, 2, 3]: " input
 
@@ -239,69 +239,16 @@ else
 	elif [ ${input} == 3 ]
 	then
 		clear && title
-		echo -e "-------------------------"
-		echo -e "|  [1] Check Service    |"
-		echo -e "|  [2] Enable Service   |"
-		echo -e "|  [3] Disable Service  |"
-		echo -e "|  [4] Restart Service  |"
-		echo -e "-------------------------"
-		read -p "[*] Enter Choice [1, 2, 3, 4]: " input
+		echo -e "----------------------------------------------------------------"
+		echo -e "|  Checking Hardened-Anonymized-DNSCrypt-Proxy Service Status  |"
+		echo -e "----------------------------------------------------------------"
+		dnscrypt-proxy -config /etc/dnscrypt-proxy/dnscrypt-proxy.toml -show-certs
 
-		if [ ${input} == 1 ]
-		then
-			clear && title
-			echo -e "----------------------------------------------------------------"
-			echo -e "|  Checking Hardened-Anonymized-DNSCrypt-Proxy Service Status  |"
-			echo -e "----------------------------------------------------------------"
-			dnscrypt-proxy -config /etc/dnscrypt-proxy/dnscrypt-proxy.toml -show-certs
+		echo -e "----------------------------------------"
+		echo -e "|  Hardened-Anonymized-DNSCrypt-Proxy  |"
+		echo -e "|        Successfully Checked !        |"
+		echo -e "----------------------------------------"
 
-			echo -e "----------------------------------------"
-			echo -e "|  Hardened-Anonymized-DNSCrypt-Proxy  |"
-			echo -e "|        Successfully Checked !        |"
-			echo -e "----------------------------------------"
-
-		elif [ ${input} == 2 ]
-		then
-			clear && title
-			systemctl disable --now systemd-resolved -f
-			systemctl enable --now dnscrypt-proxy.socket dnscrypt-proxy.service -f
-			dnscrypt-proxy -service start
-			rm -rf /etc/resolv.conf
-			echo -e "nameserver 127.0.0.1\noptions edns0 single-request-reopen" > /etc/resolv.conf
-			systemctl restart --now NetworkManager -f
-			
-			echo -e "----------------------------------------"
-			echo -e "|  Hardened-Anonymized-DNSCrypt-Proxy  |"
-			echo -e "|        Successfully Enabled !        |"
-			echo -e "----------------------------------------"
-			
-		elif [ ${input} == 3 ]
-		then
-			clear && title
-			systemctl disable --now dnscrypt-proxy.socket dnscrypt-proxy.service -f
-			systemctl enable --now systemd-resolved -f
-			dnscrypt-proxy -service stop
-			rm -rf /etc/resolv.conf
-			echo -e "nameserver ${gateway}" > /etc/resolv.conf
-			systemctl restart --now NetworkManager -f
-			
-			echo -e "----------------------------------------"
-			echo -e "|  Hardened-Anonymized-DNSCrypt-Proxy  |"
-			echo -e "|       Successfully Disabled !        |"
-			echo -e "----------------------------------------"
-			
-		elif [ ${input} == 4 ]
-		then
-			clear && title
-			dnscrypt-proxy -service restart
-			rm -rf /etc/resolv.conf
-			echo -e "nameserver 127.0.0.1\noptions edns0 single-request-reopen" > /etc/resolv.conf
-			systemctl restart --now NetworkManager -f
-						
-			echo -e "----------------------------------------"
-			echo -e "|  Hardened-Anonymized-DNSCrypt-Proxy  |"
-			echo -e "|       Successfully Restarted !       |"
-			echo -e "----------------------------------------"
 		fi
 	fi
 fi
