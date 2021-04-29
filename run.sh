@@ -8,8 +8,6 @@ title()
 	echo -e "|       Creator : BL4CKH47H4CK3R       |"
 	echo -e "----------------------------------------"
 }
-
-gateway=$(ip r | tail -1 | cut -d " " -f 1)
 	
 if ! [ ${UID} == 0 ]
 then
@@ -44,7 +42,7 @@ else
 			echo -e "-------------------------------------"
 			echo -e "|  Detected OS : Arch / Arch Based  |"
 			echo -e "-------------------------------------"
-			pacman -Sy dnscrypt-proxy
+			pacman -S dnscrypt-proxy
 
 		elif [ -f /bin/apt ]
 		then
@@ -114,6 +112,10 @@ else
 		echo -e "---------------------------------------------"
 		echo -e "|  Configuring & Restarting NetworkManager  |"
 		echo -e "---------------------------------------------"
+		if [ -f /etc/resolv.conf ]
+		then
+			unlink /etc/resolv.conf
+		fi
 		rm -rf /etc/resolv.conf /etc/resolv.conf.bak
 		rm -rf /etc/NetworkManager/NetworkManager.conf /etc/NetworkManager/NetworkManager.conf.bak
 		echo -e "[device]\nwifi.scan-rand-mac-address=yes" >> /etc/NetworkManager/NetworkManager.conf
@@ -210,12 +212,16 @@ else
 		echo -e "---------------------------------------------"
 		echo -e "|  Configuring & Restarting NetworkManager  |"
 		echo -e "---------------------------------------------"
+		if [ -f /etc/resolv.conf ]
+		then
+			unlink /etc/resolv.conf
+		fi
 		rm -rf /etc/resolv.conf /etc/resolv.conf.bak
 		rm -rf /etc/NetworkManager/NetworkManager.conf /etc/NetworkManager/NetworkManager.conf.bak		
 		echo -e "[device]\nwifi.scan-rand-mac-address=yes" >> /etc/NetworkManager/NetworkManager.conf
 		echo -e "ethernet.cloned-mac-address=random" >> /etc/NetworkManager/NetworkManager.conf
 		echo -e "wifi.cloned-mac-address=random\n" >> /etc/NetworkManager/NetworkManager.conf
-		echo -e "nameserver ${gateway}" > /etc/resolv.conf && systemctl restart --now NetworkManager -f
+		systemctl restart --now NetworkManager -f
 
 		echo -e "----------------------------------------"
 		echo -e "|  Hardened-Anonymized-DNSCrypt-Proxy  |"
