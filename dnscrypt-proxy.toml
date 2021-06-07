@@ -29,7 +29,7 @@
 ##
 ## Remove the leading # first to enable this; lines starting with # are ignored.
 
-server_names = ['acsacsar-ams-ipv4', 'ams-dnscrypt-nl', 'arvind-io', 'bcn-dnscrypt', 'd0wn-tz-ns1', 'dama.no sa-a80', 'dct-ru1', 'dct-ru2', 'dnscrypt.be', 'dnscrypt.ca-1', 'dnscrypt.ca-2', 'dnscrypt.eu-dk', 'dnscrypt.eu-nl', 'dnscrypt.pl', 'dnscrypt.uk-ipv4', 'jp.tiar.app', 'meganerd', 'moulticast-ca-ipv4', 'moulticast-de-ipv4', 'moulticast-fr-ipv4', 'moulticast-sg-ipv4', 'moulticast-uk-ipv4', 'pf-dnscrypt', 'plan9-dns', 'plan9-ns2', 'pryv8boi', 'publicarray-au', 'pwoss.org-dnscrypt', 'scaleway-ams', 'scaleway-fr', 'serbica', 'v.dnscrypt.uk-ipv4', 'zackptg5-us-il-ipv4', 'zackptg5-us-pit-ipv4']
+server_names = ['acsacsar-ams-ipv4', 'altername', 'ams-dnscrypt-nl', 'bcn-dnscrypt', 'd0wn-tz-ns1', 'dama.no osl-s04', 'dama.no sa-a80', 'dct-ru1', 'dct-ru2', 'dnscrypt.be', 'dnscrypt.ca-1', 'dnscrypt.ca-2', 'dnscrypt.eu-dk', 'dnscrypt.eu-nl', 'dnscrypt.pl', 'dnscrypt.uk-ipv4', 'jp.tiar.app', 'meganerd', 'moulticast-ca-ipv4', 'moulticast-de-ipv4', 'moulticast-fr-ipv4', 'moulticast-sg-ipv4', 'moulticast-uk-ipv4', 'pf-dnscrypt', 'plan9-dns', 'plan9-ns2', 'pryv8boi', 'publicarray-au', 'pwoss.org-dnscrypt', 'scaleway-ams', 'scaleway-fr', 'serbica', 'v.dnscrypt.uk-ipv4', 'zackptg5-us-il-ipv4', 'zackptg5-us-pit-ipv4']
 
 
 ## List of local addresses and ports to listen to. Can be IPv4 and/or IPv6.
@@ -55,7 +55,7 @@ max_clients = 250
 # user_name = 'nobody'
 
 
-## Require servers (from static + remote sources) to satisfy specific properties
+## Require servers (from remote sources) to satisfy specific properties
 
 # Use servers reachable over IPv4
 ipv4_servers = true
@@ -68,6 +68,9 @@ dnscrypt_servers = true
 
 # Use servers implementing the DNS-over-HTTPS protocol
 doh_servers = false
+
+# Use servers implementing the Oblivious DoH protocol
+# odoh_servers = false
 
 
 ## Require servers defined by remote sources to satisfy specific properties
@@ -681,6 +684,15 @@ cache_neg_max_ttl = 600
   refresh_delay = 72
   prefix = ''
 
+  ## ODoH (Oblivious DoH) servers and relays
+
+  # [sources.'odoh']
+  # urls = ['https://raw.githubusercontent.com/DNSCrypt/dnscrypt-resolvers/master/v3/odoh.md', 'https://download.dnscrypt.info/resolvers-list/v3/odoh.md', 'https://ipv6.download.dnscrypt.info/resolvers-list/v3/odoh.md', 'https://download.dnscrypt.net/resolvers-list/v3/odoh.md']
+  # cache_file = 'odoh.md'
+  # minisign_key = 'RWQf6LRCGA9i53mlYecO4IzT51TGPpvWucNSCh1CBM0QTaLn73Y7GFO3'
+  # refresh_delay = 24
+  # prefix = ''
+
   ## Quad9 over DNSCrypt - https://quad9.net/
 
   # [sources.quad9-resolvers]
@@ -734,7 +746,7 @@ fragments_blocked = ['cisco', 'cisco-ipv6', 'cisco-familyshield', 'cisco-familys
 
 #
 # creds = [
-#    { server_name='myserver', client_cert='client.crt', client_key='client.key' }
+#    { server_name='*', client_cert='client.crt', client_key='client.key' }
 # ]
 
 
@@ -776,17 +788,18 @@ fragments_blocked = ['cisco', 'cisco-ipv6', 'cisco-familyshield', 'cisco-familys
 
  routes = [
     { server_name='acsacsar-ams-ipv4', via=['anon-meganerd', 'anon-scaleway-ams'] },
+    { server_name='altername', via=['anon-pwoss.org', 'anon-sth-se'] },
     { server_name='ams-dnscrypt-nl', via=['anon-meganerd', 'anon-scaleway-ams'] },
-    { server_name='arvind-io', via=['anon-arapurayil-in-ipv4', 'anon-tiarap'] },
     { server_name='bcn-dnscrypt', via=['anon-pf', 'anon-scaleway'] },
     { server_name='d0wn-tz-ns1', via=['anon-arapurayil-in-ipv4', 'anon-pwoss.org'] },
+    { server_name='dama.no osl-s04', via=['anon-meganerd', 'anon-serbica'] },
     { server_name='dama.no sa-a80', via=['anon-meganerd', 'anon-serbica'] },
     { server_name='dct-ru1', via=['anon-pwoss.org', 'anon-sth-se'] },
     { server_name='dct-ru2', via=['anon-pwoss.org', 'anon-sth-se'] },
     { server_name='dnscrypt.be', via=['anon-acsacsar-ams-ipv4', 'anon-scaleway'] },
     { server_name='dnscrypt.ca-1', via=['anon-plan9-dns', 'anon-zackptg5-us-il-ipv4'] },
     { server_name='dnscrypt.ca-2', via=['anon-plan9-dns', 'anon-zackptg5-us-il-ipv4'] },
-    { server_name='dnscrypt.eu-dk', via=['anon-meganerd', 'anon-scaleway-ams'] },
+    { server_name='dnscrypt.eu-dk', via=['dama.no osl-s04 Relay', 'anon-scaleway-ams'] },
     { server_name='dnscrypt.eu-nl', via=['anon-meganerd', 'anon-scaleway-ams'] },
     { server_name='dnscrypt.pl', via=['anon-dnscrypt.one', 'anon-pwoss.org'] },
     { server_name='dnscrypt.uk-ipv4', via=['anon-kama', 'anon-scaleway'] },
@@ -797,18 +810,18 @@ fragments_blocked = ['cisco', 'cisco-ipv6', 'cisco-familyshield', 'cisco-familys
     { server_name='moulticast-fr-ipv4', via=['anon-pf', 'anon-kama'] },
     { server_name='moulticast-sg-ipv4', via=['anon-saldnssg01-conoha-ipv4', 'anon-yepdns-sg-ipv4'] },
     { server_name='moulticast-uk-ipv4', via=['anon-dnscrypt.uk-ipv4', 'anon-v.dnscrypt.uk-ipv4'] },
-    { server_name='pf-dnscrypt', via=['anon-bcn', 'anon-scaleway'] },
-    { server_name='plan9-dns', via=['anon-zackptg5-us-il-ipv4', 'anon-zackptg5-us-pit-ipv4'] },
-    { server_name='plan9-ns2', via=['anon-zackptg5-us-il-ipv4', 'anon-zackptg5-us-pit-ipv4'] },
+    { server_name='pf-dnscrypt', via=['anon-ibksturm', 'anon-scaleway'] },
+    { server_name='plan9-dns', via=['anon-inconnu', 'anon-zackptg5-us-il-ipv4'] },
+    { server_name='plan9-ns2', via=['anon-inconnu', 'anon-zackptg5-us-il-ipv4'] },
     { server_name='pryv8boi', via=['anon-dnscrypt.one', 'anon-pwoss.org'] },
     { server_name='publicarray-au', via=['anon-saldnssg01-conoha-ipv4', 'anon-tiarap'] },
-    { server_name='pwoss.org-dnscrypt', via=['anon-pf', 'anon-dnscrypt.one'] },
+    { server_name='pwoss.org-dnscrypt', via=['anon-ibksturm', 'anon-dnscrypt.one'] },
     { server_name='scaleway-ams', via=['anon-acsacsar-ams-ipv4', 'anon-serbica'] },
     { server_name='scaleway-fr', via=['anon-pf', 'anon-v.dnscrypt.uk-ipv4'] },
     { server_name='serbica', via=['anon-acsacsar-ams-ipv4', 'anon-scaleway-ams'] },
     { server_name='v.dnscrypt.uk-ipv4', via=['anon-kama', 'anon-scaleway'] },
-    { server_name='zackptg5-us-il-ipv4', via=['anon-plan9-dns', 'anon-plan9-ns2'] },
-    { server_name='zackptg5-us-pit-ipv4', via=['anon-plan9-dns', 'anon-plan9-ns2'] }
+    { server_name='zackptg5-us-il-ipv4', via=['anon-inconnu', 'anon-plan9-ns2'] },
+    { server_name='zackptg5-us-pit-ipv4', via=['anon-inconnu', 'anon-plan9-ns2'] }
 #    { server_name='example-server-2', via=['sdns://gRIxMzcuNzQuMjIzLjIzNDo0NDM'] }
  ]
 
