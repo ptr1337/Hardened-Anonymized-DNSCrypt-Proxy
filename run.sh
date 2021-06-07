@@ -52,20 +52,19 @@ else
 			curl -O http://ftp.debian.org/debian/pool/main/d/dnscrypt-proxy/dnscrypt-proxy_2.0.45+ds1-1_amd64.deb
 			apt install dnscrypt-proxy_2.0.45+ds1-1_amd64.deb && rm -rf dnscrypt-proxy_2.0.45+ds1-1_amd64.deb
 
-		elif [ -f /bin/apk ]
-		then
-			echo -e "------------------------"
-			echo -e "| Detected OS : Alpine |"
-			echo -e "------------------------"
-			curl -O http://dl-cdn.alpinelinux.org/alpine/edge/community/x86_64/dnscrypt-proxy-2.0.45-r0.apk
-			apk add --allow-untrusted dnscrypt-proxy-2.0.45-r0.apk && rm -rf dnscrypt-proxy-2.0.45-r0.apk
-		
 		elif [ -f /bin/dnf ]
 		then
 			echo -e "------------------------"
 			echo -e "| Detected OS : Fedora |"
 			echo -e "------------------------"
 			dnf install dnscrypt-proxy
+
+		elif [ -f /bin/yum ]
+		then
+			echo -e "---------------------------------"
+			echo -e "| Detected OS : CentOS / RedHat |"
+			echo -e "---------------------------------"
+			yum install dnscrypt-proxy
 
 		elif [ -f /bin/urpmi ]
 		then
@@ -152,19 +151,20 @@ else
 			echo -e "---------------------------------------"
 			apt purge dnscrypt-proxy
 
-		elif [ -f /bin/apk ]
-		then
-			echo -e "------------------------"
-			echo -e "| Detected OS : Alpine |"
-			echo -e "------------------------"
-			apk del dnscrypt-proxy
-
 		elif [ -f /bin/dnf ]
 		then
 			echo -e "------------------------"
 			echo -e "| Detected OS : Fedora |"
 			echo -e "------------------------"
 			dnf remove dnscrypt-proxy
+
+		elif [ -f /bin/yum ]
+		then
+			echo -e "---------------------------------"
+			echo -e "| Detected OS : CentOS / RedHat |"
+			echo -e "---------------------------------"
+			yum remove dnscrypt-proxy
+			
 
 		elif [ -f /bin/urpmi ]
 		then
