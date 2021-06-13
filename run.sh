@@ -96,10 +96,6 @@ else
 		echo -e "--------------------------------------------------------------"
 		echo -e "| Applying Hardened-Anonymized-DNSCrypt-Proxy Configurations |"
 		echo -e "--------------------------------------------------------------"
-		cp -rf allowed-ips.txt /etc/dnscrypt-proxy
-		cp -rf blocked-ips.txt /etc/dnscrypt-proxy
-		cp -rf allowed-names.txt /etc/dnscrypt-proxy
-		cp -rf blocked-names.txt /etc/dnscrypt-proxy
 		cp -rf dnscrypt-proxy.toml /etc/dnscrypt-proxy
 				
 		echo -e "---------------------------------------------------"
