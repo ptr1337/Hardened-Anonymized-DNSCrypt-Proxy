@@ -9,7 +9,7 @@ title()
 	echo -e "--------------------------------------"
 }
 	
-if ! [ ${UID} == 0 ]
+if ! [[ ${UID} == 0 ]]
 then
 	clear && title
 	echo -e "--------------------------"
@@ -24,27 +24,27 @@ else
 	echo -e "---------------------"
 	read -p "[*] Enter Choice [1, 2, 3]: " input
 
-	if [ ${input} == 1 ]
+	if [[ ${input} == 1 ]]
 	then
 		clear && title
 		echo -e "-----------------------------"
 		echo -e "| Installing DNSCrypt-Proxy |"
 		echo -e "-----------------------------"
 
-		if [ -f /bin/dnscrypt-proxy ]
+		if [[ -f /bin/dnscrypt-proxy ]]
 		then
 			echo -e "----------------------------"
 			echo -e "| DNSCrypt-Proxy Installed |"
 			echo -e "----------------------------"
 
-		elif [ -f /bin/pacman ]
+		elif [[ -f /bin/pacman ]]
 		then
 			echo -e "-----------------------------------"
 			echo -e "| Detected OS : Arch / Arch Based |"
 			echo -e "-----------------------------------"
 			pacman -S dnscrypt-proxy
 
-		elif [ -f /bin/apt ]
+		elif [[ -f /bin/apt ]]
 		then
 			echo -e "---------------------------------------"
 			echo -e "| Detected OS : Debian / Debian Based |"
@@ -52,35 +52,35 @@ else
 			curl -O http://ftp.debian.org/debian/pool/main/d/dnscrypt-proxy/dnscrypt-proxy_2.0.45+ds1-1_amd64.deb
 			apt install dnscrypt-proxy_2.0.45+ds1-1_amd64.deb && rm -rf dnscrypt-proxy_2.0.45+ds1-1_amd64.deb
 
-		elif [ -f /bin/dnf ]
+		elif [[ -f /bin/dnf ]]
 		then
 			echo -e "------------------------"
 			echo -e "| Detected OS : Fedora |"
 			echo -e "------------------------"
 			dnf install dnscrypt-proxy
 
-		elif [ -f /bin/yum ]
+		elif [[ -f /bin/yum ]]
 		then
 			echo -e "---------------------------------"
 			echo -e "| Detected OS : CentOS / RedHat |"
 			echo -e "---------------------------------"
 			yum install dnscrypt-proxy
 
-		elif [ -f /bin/urpmi ]
+		elif [[ -f /bin/urpmi ]]
 		then
 			echo -e "------------------------"
 			echo -e "| Detected OS : Mageia |"
 			echo -e "------------------------"
 			urpmi dnscrypt-proxy
 
-		elif [ -f /bin/zypper ]
+		elif [[ -f /bin/zypper ]]
 		then
 			echo -e "--------------------------"
 			echo -e "| Detected OS : OpenSUSE |"
 			echo -e "--------------------------"
 			zypper in dnscrypt-proxy
 
-		elif [ -f /bin/eopkg ]
+		elif [[ -f /bin/eopkg ]]
 		then
 			echo -e "-----------------------"
 			echo -e "| Detected OS : Solus |"
@@ -120,41 +120,41 @@ else
 		echo -e "|     Successfully Configured !      |"
 		echo -e "--------------------------------------"
 
-	elif [ ${input} == 2 ]
+	elif [[ ${input} == 2 ]]
 	then
 		clear && title
 		echo -e "-------------------------------"
 		echo -e "| Uninstalling DNSCrypt-Proxy |"
 		echo -e "-------------------------------"
 
-		if ! [ -f /bin/dnscrypt-proxy ]
+		if ! [[ -f /bin/dnscrypt-proxy ]]
 		then
 			echo -e "-------------------------------"
 			echo -e "| DNSCrypt-Proxy Not Intalled |"
 			echo -e "-------------------------------"
 
-		elif [ -f /bin/pacman ]
+		elif [[ -f /bin/pacman ]]
 		then
 			echo -e "-----------------------------------"
 			echo -e "| Detected OS : Arch / Arch Based |"
 			echo -e "-----------------------------------"
 			pacman -Rcnsu dnscrypt-proxy
 
-		elif [ -f /bin/apt ]
+		elif [[ -f /bin/apt ]]
 		then
 			echo -e "---------------------------------------"
 			echo -e "| Detected OS : Debian / Debian Based |"
 			echo -e "---------------------------------------"
 			apt purge dnscrypt-proxy
 
-		elif [ -f /bin/dnf ]
+		elif [[ -f /bin/dnf ]]
 		then
 			echo -e "------------------------"
 			echo -e "| Detected OS : Fedora |"
 			echo -e "------------------------"
 			dnf remove dnscrypt-proxy
 
-		elif [ -f /bin/yum ]
+		elif [[ -f /bin/yum ]]
 		then
 			echo -e "---------------------------------"
 			echo -e "| Detected OS : CentOS / RedHat |"
@@ -162,21 +162,21 @@ else
 			yum remove dnscrypt-proxy
 			
 
-		elif [ -f /bin/urpmi ]
+		elif [[ -f /bin/urpmi ]]
 		then
 			echo -e "------------------------"
 			echo -e "| Detected OS : Mageia |"
 			echo -e "------------------------"
 			urpme dnscrypt-proxy
 
-		elif [ -f /bin/zypper ]
+		elif [[ -f /bin/zypper ]]
 		then
 			echo -e "--------------------------"
 			echo -e "| Detected OS : OpenSUSE |"
 			echo -e "--------------------------"
 			zypper rm dnscrypt-proxy
 
-		elif [ -f /bin/eopkg ]
+		elif [[ -f /bin/eopkg ]]
 		then
 			echo -e "-----------------------"
 			echo -e "| Detected OS : Solus |"
@@ -209,7 +209,7 @@ else
 		echo -e "|    Successfully Deconfigured !     |"
 		echo -e "--------------------------------------"
 		
-	elif [ ${input} == 3 ]
+	elif [[ ${input} == 3 ]]
 	then
 		clear && title
 		echo -e "--------------------------------------------------------------"
