@@ -67,10 +67,10 @@ ipv6_servers = false
 dnscrypt_servers = true
 
 # Use servers implementing the DNS-over-HTTPS protocol
-#doh_servers = false
+doh_servers = false
 
 # Use servers implementing the Oblivious DoH protocol
-#odoh_servers = false
+odoh_servers = false
 
 
 ## Require servers defined by remote sources to satisfy specific properties
@@ -241,7 +241,7 @@ dnscrypt_ephemeral_keys = true
 ## not be sent there. If you're using DNSCrypt or Anonymized DNS and your
 ## lists are up to date, these resolvers will not even be used.
 
-fallback_resolvers = ['91.239.100.100:53']
+bootstrap_resolvers = ['91.239.100.100:53']
 
 
 ## Always use the bootstrap resolver before the system DNS settings.
