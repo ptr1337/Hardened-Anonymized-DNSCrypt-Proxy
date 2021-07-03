@@ -70,7 +70,7 @@ dnscrypt_servers = true
 doh_servers = false
 
 # Use servers implementing the Oblivious DoH protocol
-odoh_servers = false
+# odoh_servers = false
 
 
 ## Require servers defined by remote sources to satisfy specific properties
