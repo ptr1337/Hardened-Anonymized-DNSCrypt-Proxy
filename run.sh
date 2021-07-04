@@ -47,7 +47,7 @@ else
 		rm -rf *tar* linux-${march}
 
 		echo -e "--------------------------------------"
-		echo -e "| Disabling Systemd-Resolved Service |"
+		echo -e "| Disabling SystemD-Resolved Service |"
 		echo -e "--------------------------------------"
 		systemctl disable --now systemd-resolved -f
 			
@@ -101,7 +101,7 @@ else
 		rm -rf /etc/${pkgname}
 
 		echo -e "-------------------------------------"
-		echo -e "| Enabling Systemd-Resolved Service |"
+		echo -e "| Enabling SystemD-Resolved Service |"
 		echo -e "-------------------------------------"
 		systemctl enable --now systemd-resolved -f
 
