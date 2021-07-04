@@ -18,14 +18,7 @@ But For Linux, People Find It Hard To Configure DNSCrypt-Proxy Manually. But I W
 
 
 - ## Supported Linux Distributions
-
-- `Solus`
-- `Fedora`
-- `Mageia`
-- `OpenSUSE`
-- `CentOS / RedHat`
-- `Arch / Arch Based Linux`
-- `Debian / Debian Based Linux`
+`Any SystemD Based Linux Distro`
 
 - ## Differences From The Main DNSCrypt-Proxy Project
 
