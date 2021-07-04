@@ -1,4 +1,11 @@
-#!/bin/sh
+#!/bin/bash
+
+march="$(uname -m)"
+pkgname="dnscrypt-proxy"
+pkgver=(
+$(curl --no-progress-meter \
+https://github.com/DNSCrypt/dnscrypt-proxy/releases/latest/|\
+cut -d/ -f8 | cut -d\" -f1))
 
 title()
 {
@@ -15,7 +22,8 @@ then
 	echo -e "--------------------------"
 	echo -e "| Run The Script As Root |"
 	echo -e "--------------------------"
-else
+
+else	
 	clear && title
 	echo -e "---------------------"
 	echo -e "| [1] Configure     |"
@@ -27,81 +35,34 @@ else
 	if [[ ${input} == 1 ]]
 	then
 		clear && title
-		echo -e "-----------------------------"
-		echo -e "| Installing DNSCrypt-Proxy |"
-		echo -e "-----------------------------"
+		echo -e "-------------------------------------------"
+		echo -e "| Downloading & Installing DNSCrypt-Proxy |"
+		echo -e "-------------------------------------------"
+		curl -LO "https://github.com/DNSCrypt/${pkgname}/releases/download/${pkgver}/${pkgname}-linux_${march}-${pkgver}.tar.gz"
+		tar xf *tar*
+		rm -rf /usr/share/licenses/${pkgname}
+		mkdir /usr/share/licenses/${pkgname}
+		mv linux-${march}/${pkgname} /usr/bin/
+		mv linux-${march}/LICENSE /usr/share/licenses/${pkgname}/LICENSE
+		rm -rf *tar* linux-${march}
 
-		if [[ -f /bin/dnscrypt-proxy ]]
-		then
-			echo -e "----------------------------"
-			echo -e "| DNSCrypt-Proxy Installed |"
-			echo -e "----------------------------"
-
-		elif [[ -f /bin/pacman ]]
-		then
-			echo -e "-----------------------------------"
-			echo -e "| Detected OS : Arch / Arch Based |"
-			echo -e "-----------------------------------"
-			pacman -S dnscrypt-proxy
-
-		elif [[ -f /bin/apt ]]
-		then
-			echo -e "---------------------------------------"
-			echo -e "| Detected OS : Debian / Debian Based |"
-			echo -e "---------------------------------------"
-			curl -O http://ftp.debian.org/debian/pool/main/d/dnscrypt-proxy/dnscrypt-proxy_2.0.45+ds1-1_amd64.deb
-			apt install dnscrypt-proxy_2.0.45+ds1-1_amd64.deb && rm -rf dnscrypt-proxy_2.0.45+ds1-1_amd64.deb
-
-		elif [[ -f /bin/dnf ]]
-		then
-			echo -e "------------------------"
-			echo -e "| Detected OS : Fedora |"
-			echo -e "------------------------"
-			dnf install dnscrypt-proxy
-
-		elif [[ -f /bin/yum ]]
-		then
-			echo -e "---------------------------------"
-			echo -e "| Detected OS : CentOS / RedHat |"
-			echo -e "---------------------------------"
-			yum install dnscrypt-proxy
-
-		elif [[ -f /bin/urpmi ]]
-		then
-			echo -e "------------------------"
-			echo -e "| Detected OS : Mageia |"
-			echo -e "------------------------"
-			urpmi dnscrypt-proxy
-
-		elif [[ -f /bin/zypper ]]
-		then
-			echo -e "--------------------------"
-			echo -e "| Detected OS : OpenSUSE |"
-			echo -e "--------------------------"
-			zypper in dnscrypt-proxy
-
-		elif [[ -f /bin/eopkg ]]
-		then
-			echo -e "-----------------------"
-			echo -e "| Detected OS : Solus |"
-			echo -e "-----------------------"
-			eopkg install dnscrypt-proxy
-		fi
-
-		echo -e "------------------------------"
-		echo -e "| Disabling SystemD-Resolved |"
-		echo -e "------------------------------"
+		echo -e "--------------------------------------"
+		echo -e "| Disabling Systemd-Resolved Service |"
+		echo -e "--------------------------------------"
 		systemctl disable --now systemd-resolved -f
+			
+		echo -e "---------------------------------------------------"
+		echo -e "| Initializing Hardened-Anonymized-DNSCrypt-Proxy |"
+		echo -e "---------------------------------------------------"
+		cp -rf *service* /usr/lib/systemd/system/
+		systemctl enable --now ${pkgname}.service -f
 
 		echo -e "--------------------------------------------------------------"
 		echo -e "| Applying Hardened-Anonymized-DNSCrypt-Proxy Configurations |"
 		echo -e "--------------------------------------------------------------"
-		cp -rf dnscrypt-proxy.toml /etc/dnscrypt-proxy
-				
-		echo -e "---------------------------------------------------"
-		echo -e "| Initializing Hardened-Anonymized-DNSCrypt-Proxy |"
-		echo -e "---------------------------------------------------"
-		systemctl enable --now dnscrypt-proxy.service -f
+		mkdir /etc/${pkgname}
+		touch /etc/dnscrypt-proxy/{allowed,blocked}-{ips,names}.txt
+		cp -rf ${pkgname}.toml /etc/${pkgname}
 		
 		echo -e "-------------------------------------------"
 		echo -e "| Configuring & Restarting NetworkManager |"
@@ -114,85 +75,35 @@ else
 		echo -e "[main]\ndns=none" >> /etc/NetworkManager/NetworkManager.conf
 		systemctl restart --now NetworkManager -f
 		echo -e "nameserver 127.0.0.1\noptions edns0 single-request-reopen" > /etc/resolv.conf
-		
+			
 		echo -e "--------------------------------------"
 		echo -e "| Hardened-Anonymized-DNSCrypt-Proxy |"
 		echo -e "|     Successfully Configured !      |"
 		echo -e "--------------------------------------"
-
+							
 	elif [[ ${input} == 2 ]]
 	then
 		clear && title
-		echo -e "-------------------------------"
-		echo -e "| Uninstalling DNSCrypt-Proxy |"
-		echo -e "-------------------------------"
-
-		if ! [[ -f /bin/dnscrypt-proxy ]]
-		then
-			echo -e "-------------------------------"
-			echo -e "| DNSCrypt-Proxy Not Intalled |"
-			echo -e "-------------------------------"
-
-		elif [[ -f /bin/pacman ]]
-		then
-			echo -e "-----------------------------------"
-			echo -e "| Detected OS : Arch / Arch Based |"
-			echo -e "-----------------------------------"
-			pacman -Rcnsu dnscrypt-proxy
-
-		elif [[ -f /bin/apt ]]
-		then
-			echo -e "---------------------------------------"
-			echo -e "| Detected OS : Debian / Debian Based |"
-			echo -e "---------------------------------------"
-			apt purge dnscrypt-proxy
-
-		elif [[ -f /bin/dnf ]]
-		then
-			echo -e "------------------------"
-			echo -e "| Detected OS : Fedora |"
-			echo -e "------------------------"
-			dnf remove dnscrypt-proxy
-
-		elif [[ -f /bin/yum ]]
-		then
-			echo -e "---------------------------------"
-			echo -e "| Detected OS : CentOS / RedHat |"
-			echo -e "---------------------------------"
-			yum remove dnscrypt-proxy
-			
-
-		elif [[ -f /bin/urpmi ]]
-		then
-			echo -e "------------------------"
-			echo -e "| Detected OS : Mageia |"
-			echo -e "------------------------"
-			urpme dnscrypt-proxy
-
-		elif [[ -f /bin/zypper ]]
-		then
-			echo -e "--------------------------"
-			echo -e "| Detected OS : OpenSUSE |"
-			echo -e "--------------------------"
-			zypper rm dnscrypt-proxy
-
-		elif [[ -f /bin/eopkg ]]
-		then
-			echo -e "-----------------------"
-			echo -e "| Detected OS : Solus |"
-			echo -e "-----------------------"
-			eopkg remove dnscrypt-proxy
-		fi
-
 		echo -e "------------------------------------------------"
 		echo -e "| Disabling Hardened-Anonymized-DNSCrypt-Proxy |"
 		echo -e "------------------------------------------------"
-		systemctl disable --now dnscrypt-proxy.service -f
+		systemctl disable --now ${pkgname} -f
+
+		echo -e "-------------------------------"
+		echo -e "| Uninstalling DNSCrypt-Proxy |"
+		echo -e "-------------------------------"
+		rm -rf /usr/lib/systemd/system/${pkgname}.service
+		rm -rf /usr/share/licenses/${pkgname} /usr/bin/${pkgname}
 		
 		echo -e "---------------------------------------------------------------"
 		echo -e "| Reverting Hardened-Anonymized-DNSCrypt-Proxy Configurations |"
 		echo -e "---------------------------------------------------------------"
-		rm -rf /etc/dnscrypt-proxy
+		rm -rf /etc/${pkgname}
+
+		echo -e "-------------------------------------"
+		echo -e "| Enabling Systemd-Resolved Service |"
+		echo -e "-------------------------------------"
+		systemctl enable --now systemd-resolved -f
 
 		echo -e "-------------------------------------------"
 		echo -e "| Configuring & Restarting NetworkManager |"
@@ -215,12 +126,11 @@ else
 		echo -e "--------------------------------------------------------------"
 		echo -e "| Checking Hardened-Anonymized-DNSCrypt-Proxy Service Status |"
 		echo -e "--------------------------------------------------------------"
-		dnscrypt-proxy -config /etc/dnscrypt-proxy/dnscrypt-proxy.toml -show-certs
+		${pkgname} -config /etc/${pkgname}/${pkgname}.toml --show-certs
 
 		echo -e "--------------------------------------"
 		echo -e "| Hardened-Anonymized-DNSCrypt-Proxy |"
 		echo -e "|       Successfully Checked !       |"
-		echo -e "--------------------------------------"
-
+		echo -e "--------------------------------------"		
 	fi
 fi
