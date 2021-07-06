@@ -60,7 +60,7 @@ else
 		echo -e "--------------------------------------------------------------"
 		echo -e "| Applying Hardened-Anonymized-DNSCrypt-Proxy Configurations |"
 		echo -e "--------------------------------------------------------------"
-		mkdir /etc/${pkgname}
+		rm -rf /etc/${pkgname} && mkdir /etc/${pkgname}
 		touch /etc/dnscrypt-proxy/{allowed,blocked}-{ips,names}.txt
 		cp -rf ${pkgname}.toml /etc/${pkgname}
 		
