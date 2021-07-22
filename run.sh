@@ -25,12 +25,13 @@ then
 
 else	
 	clear && title
-	echo -e "---------------------"
-	echo -e "| [1] Configure     |"
-	echo -e "| [2] Deconfigure   |"
-	echo -e "| [3] Check Service |"
-	echo -e "---------------------"
-	read -p "[*] Enter Choice [1, 2, 3]: " input
+	echo -e "----------------------------"
+	echo -e "| [1] Configure DNSCrypt   |"
+	echo -e "| [2] Deconfigure DNSCrypt |"
+	echo -e "| [3] Update Configuration |"
+	echo -e "| [4] Check Service Status |"
+	echo -e "----------------------------"
+	read -p "[*] Enter Choice [1, 2, 3, 4]: " input
 
 	if [[ ${input} == 1 ]]
 	then
@@ -123,6 +124,21 @@ else
 	elif [[ ${input} == 3 ]]
 	then
 		clear && title
+		echo -e "-----------------------------------------"
+		echo -e "| Hardened-Anonymized-DNSCrypt-Proxy    |"
+		echo -e "| Configuaration Successfully Updated ! |"
+		echo -e "-----------------------------------------"
+		rm -rf /etc/${pkgname}/${pkgname}.toml
+		cp -rf ${pkgname}.toml /etc/${pkgname}/${pkgname}.toml
+
+		echo -e "--------------------------------------------------"
+		echo -e "| Restarting NetworkManager & Necessary Services |"
+		echo -e "--------------------------------------------------"
+		systemctl restart --now ${pkgname}.service NetworkManager -f
+
+	elif [[ ${input} == 4 ]]
+	then
+		clear && title
 		echo -e "--------------------------------------------------------------"
 		echo -e "| Checking Hardened-Anonymized-DNSCrypt-Proxy Service Status |"
 		echo -e "--------------------------------------------------------------"
@@ -131,6 +147,7 @@ else
 		echo -e "--------------------------------------"
 		echo -e "| Hardened-Anonymized-DNSCrypt-Proxy |"
 		echo -e "|       Successfully Checked !       |"
-		echo -e "--------------------------------------"		
+		echo -e "--------------------------------------"
+		
 	fi
 fi
