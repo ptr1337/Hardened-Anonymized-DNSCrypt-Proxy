@@ -1,11 +1,10 @@
 #!/bin/bash
 
-march="$(uname -m)"
-pkgname="dnscrypt-proxy"
-pkgver=(
-$(curl --no-progress-meter \
+pkgname=dnscrypt-proxy
+march=`lscpu | grep Ar | awk '{print $2}'`
+pkgver=(`curl --no-progress-meter \
 https://github.com/DNSCrypt/dnscrypt-proxy/releases/latest/|\
-cut -d/ -f8 | cut -d\" -f1))
+cut -d/ -f8 | cut -d\" -f1`)
 
 title()
 {
@@ -39,24 +38,28 @@ else
 		echo -e "-------------------------------------------"
 		echo -e "| Downloading & Installing DNSCrypt-Proxy |"
 		echo -e "-------------------------------------------"
-		curl -LO "https://github.com/DNSCrypt/${pkgname}/releases/download/${pkgver}/${pkgname}-linux_${march}-${pkgver}.tar.gz"
+
+		if [[ ${march} == "aarch64" ]]
+		then
+			curl -OLC - "https://github.com/DNSCrypt/${pkgname}/releases/download/${pkgver}/${pkgname}-linux_arm64-${pkgver}.tar.gz"
+		else
+			curl -OLC - "https://github.com/DNSCrypt/${pkgname}/releases/download/${pkgver}/${pkgname}-linux_${march}-${pkgver}.tar.gz"
+		fi
+
 		tar xf *tar*
-		rm -rf /usr/share/licenses/${pkgname}
-		mkdir /usr/share/licenses/${pkgname}
-		mv linux-${march}/${pkgname} /usr/bin/
-		mv linux-${march}/LICENSE /usr/share/licenses/${pkgname}/LICENSE
-		rm -rf *tar* linux-${march}
+		mv *linux*/${pkgname} /usr/bin/
+		rm -rf *tar* *linux*
 
 		echo -e "--------------------------------------"
 		echo -e "| Disabling SystemD-Resolved Service |"
 		echo -e "--------------------------------------"
-		systemctl disable --now systemd-resolved -f
+		systemctl daemon-reload && systemctl disable --now systemd-resolved -f
 			
 		echo -e "---------------------------------------------------"
 		echo -e "| Initializing Hardened-Anonymized-DNSCrypt-Proxy |"
 		echo -e "---------------------------------------------------"
 		cp -rf *service* /usr/lib/systemd/system/
-		systemctl enable --now ${pkgname}.service -f
+		systemctl daemon-reload && systemctl enable --now ${pkgname}.service -f
 
 		echo -e "--------------------------------------------------------------"
 		echo -e "| Applying Hardened-Anonymized-DNSCrypt-Proxy Configurations |"
@@ -68,13 +71,16 @@ else
 		echo -e "-------------------------------------------"
 		echo -e "| Configuring & Restarting NetworkManager |"
 		echo -e "-------------------------------------------"
-		rm -rf /etc/resolv.conf /etc/resolv.conf.bak
-		rm -rf /etc/NetworkManager/NetworkManager.conf /etc/NetworkManager/NetworkManager.conf.bak
+		rm -rf /etc/*resolv*
+		rm -rf /etc/NetworkManager/conf.d/*
+		rm -rf /var/lib/NetworkManager/*conf*
+		rm -rf /etc/NetworkManager/*NetworkManager*
+		echo -e "[main]\ndns=none\n" >> /etc/NetworkManager/NetworkManager.conf
 		echo -e "[device]\nwifi.scan-rand-mac-address=yes" >> /etc/NetworkManager/NetworkManager.conf
 		echo -e "ethernet.cloned-mac-address=random" >> /etc/NetworkManager/NetworkManager.conf
-		echo -e "wifi.cloned-mac-address=random\n" >> /etc/NetworkManager/NetworkManager.conf
-		echo -e "[main]\ndns=none" >> /etc/NetworkManager/NetworkManager.conf
-		systemctl restart --now NetworkManager -f
+		echo -e "wifi.cloned-mac-address=random" >> /etc/NetworkManager/NetworkManager.conf
+		echo -e "[connectivity]\n.set.enabled=false" >> /var/lib/NetworkManager/NetworkManager-intern.conf
+		systemctl daemon-reload && systemctl restart --now NetworkManager -f
 		echo -e "nameserver 127.0.0.1\noptions edns0 single-request-reopen" > /etc/resolv.conf
 			
 		echo -e "--------------------------------------"
@@ -88,13 +94,13 @@ else
 		echo -e "------------------------------------------------"
 		echo -e "| Disabling Hardened-Anonymized-DNSCrypt-Proxy |"
 		echo -e "------------------------------------------------"
-		systemctl disable --now ${pkgname} -f
+		systemctl daemon-reload && systemctl disable --now ${pkgname} -f
 
 		echo -e "-------------------------------"
 		echo -e "| Uninstalling DNSCrypt-Proxy |"
 		echo -e "-------------------------------"
+		rm -rf /usr/bin/${pkgname}
 		rm -rf /usr/lib/systemd/system/${pkgname}.service
-		rm -rf /usr/share/licenses/${pkgname} /usr/bin/${pkgname}
 		
 		echo -e "---------------------------------------------------------------"
 		echo -e "| Reverting Hardened-Anonymized-DNSCrypt-Proxy Configurations |"
@@ -104,17 +110,20 @@ else
 		echo -e "-------------------------------------"
 		echo -e "| Enabling SystemD-Resolved Service |"
 		echo -e "-------------------------------------"
-		systemctl enable --now systemd-resolved -f
+		systemctl daemon-reload && systemctl enable --now systemd-resolved -f
 
 		echo -e "-------------------------------------------"
 		echo -e "| Configuring & Restarting NetworkManager |"
 		echo -e "-------------------------------------------"
-		rm -rf /etc/resolv.conf /etc/resolv.conf.bak
-		rm -rf /etc/NetworkManager/NetworkManager.conf /etc/NetworkManager/NetworkManager.conf.bak		
+		rm -rf /etc/*resolv*
+		rm -rf /etc/NetworkManager/conf.d/*
+		rm -rf /var/lib/NetworkManager/*conf*
+		rm -rf /etc/NetworkManager/*NetworkManager*
 		echo -e "[device]\nwifi.scan-rand-mac-address=yes" >> /etc/NetworkManager/NetworkManager.conf
 		echo -e "ethernet.cloned-mac-address=random" >> /etc/NetworkManager/NetworkManager.conf
-		echo -e "wifi.cloned-mac-address=random\n" >> /etc/NetworkManager/NetworkManager.conf
-		systemctl restart --now NetworkManager -f
+		echo -e "wifi.cloned-mac-address=random" >> /etc/NetworkManager/NetworkManager.conf
+		echo -e "[connectivity]\n.set.enabled=false" >> /var/lib/NetworkManager/NetworkManager-intern.conf
+		systemctl daemon-reload && systemctl restart --now NetworkManager -f
 
 		echo -e "--------------------------------------"
 		echo -e "| Hardened-Anonymized-DNSCrypt-Proxy |"
@@ -131,10 +140,16 @@ else
 		rm -rf /etc/${pkgname}/${pkgname}.toml
 		cp -rf ${pkgname}.toml /etc/${pkgname}/${pkgname}.toml
 
+		echo -e "-------------------------------------------------"
+		echo -e "| Restarting Hardened-Anonymized-DNSCrypt-Proxy |"
+		echo -e "-------------------------------------------------"
+		cp -rf *service* /usr/lib/systemd/system/
+		systemctl daemon-reload && systemctl restart --now ${pkgname}.service -f
+
 		echo -e "--------------------------------------------------"
 		echo -e "| Restarting NetworkManager & Necessary Services |"
 		echo -e "--------------------------------------------------"
-		systemctl restart --now ${pkgname}.service NetworkManager -f
+		systemctl daemon-reload && systemctl restart --now ${pkgname}.service NetworkManager -f
 
 	elif [[ ${input} == 4 ]]
 	then
