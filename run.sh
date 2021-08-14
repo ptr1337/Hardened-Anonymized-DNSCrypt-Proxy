@@ -81,7 +81,7 @@ else
 		echo -e "wifi.cloned-mac-address=random" >> /etc/NetworkManager/NetworkManager.conf
 		echo -e "[connectivity]\n.set.enabled=false" >> /var/lib/NetworkManager/NetworkManager-intern.conf
 		systemctl daemon-reload && systemctl restart --now NetworkManager -f
-		echo -e "nameserver 127.0.0.1\noptions edns0 single-request-reopen" > /etc/resolv.conf
+		echo -e "nameserver 0.0.0.0\noptions edns0 single-request-reopen" > /etc/resolv.conf
 			
 		echo -e "--------------------------------------"
 		echo -e "| Hardened-Anonymized-DNSCrypt-Proxy |"
