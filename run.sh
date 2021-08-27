@@ -31,7 +31,7 @@ else
 	echo -e "| [4] Check Service Status |"
 	echo -e "----------------------------"
 	read -p "[*] Enter Choice [1, 2, 3, 4]: " input
-
+	
 	if [[ ${input} == 1 ]]
 	then
 		clear && title
@@ -58,8 +58,8 @@ else
 		echo -e "---------------------------------------------------"
 		echo -e "| Initializing Hardened-Anonymized-DNSCrypt-Proxy |"
 		echo -e "---------------------------------------------------"
-		cp -rf *service* /usr/lib/systemd/system/
-		systemctl daemon-reload && systemctl enable --now ${pkgname}.service -f
+		cp -rf *service* *socket* /usr/lib/systemd/system/
+		systemctl daemon-reload && systemctl enable --now ${pkgname}.{socket,service} -f
 
 		echo -e "--------------------------------------------------------------"
 		echo -e "| Applying Hardened-Anonymized-DNSCrypt-Proxy Configurations |"
@@ -81,7 +81,7 @@ else
 		echo -e "wifi.cloned-mac-address=random" >> /etc/NetworkManager/NetworkManager.conf
 		echo -e "[connectivity]\n.set.enabled=false" >> /var/lib/NetworkManager/NetworkManager-intern.conf
 		systemctl daemon-reload && systemctl restart --now NetworkManager -f
-		echo -e "nameserver 0.0.0.0\noptions edns0 single-request-reopen" > /etc/resolv.conf
+		echo -e "nameserver 127.0.0.1\noptions edns0 single-request-reopen" > /etc/resolv.conf
 			
 		echo -e "--------------------------------------"
 		echo -e "| Hardened-Anonymized-DNSCrypt-Proxy |"
@@ -94,13 +94,13 @@ else
 		echo -e "------------------------------------------------"
 		echo -e "| Disabling Hardened-Anonymized-DNSCrypt-Proxy |"
 		echo -e "------------------------------------------------"
-		systemctl daemon-reload && systemctl disable --now ${pkgname} -f
+		systemctl daemon-reload && systemctl disable --now ${pkgname}.{socket,service} -f
 
 		echo -e "-------------------------------"
 		echo -e "| Uninstalling DNSCrypt-Proxy |"
 		echo -e "-------------------------------"
 		rm -rf /usr/bin/${pkgname}
-		rm -rf /usr/lib/systemd/system/${pkgname}.service
+		rm -rf /usr/lib/systemd/system/${pkgname}.{socket,service}
 		
 		echo -e "---------------------------------------------------------------"
 		echo -e "| Reverting Hardened-Anonymized-DNSCrypt-Proxy Configurations |"
@@ -144,12 +144,12 @@ else
 		echo -e "| Restarting Hardened-Anonymized-DNSCrypt-Proxy |"
 		echo -e "-------------------------------------------------"
 		cp -rf *service* /usr/lib/systemd/system/
-		systemctl daemon-reload && systemctl restart --now ${pkgname}.service -f
+		systemctl daemon-reload && systemctl restart --now ${pkgname}.{socket,service} -f
 
 		echo -e "--------------------------------------------------"
 		echo -e "| Restarting NetworkManager & Necessary Services |"
 		echo -e "--------------------------------------------------"
-		systemctl daemon-reload && systemctl restart --now ${pkgname}.service NetworkManager -f
+		systemctl daemon-reload && systemctl restart --now NetworkManager -f
 
 	elif [[ ${input} == 4 ]]
 	then
