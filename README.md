@@ -74,8 +74,6 @@ chmod +x run.sh && sudo ./run.sh
 - For more detailed configuration please refer to [official documentation](https://github.com/DNSCrypt/dnscrypt-proxy/wiki/Configuration).
 
 
-## Credits
-
-- ## All Credit Goes To -
+## All Credit Goes To -
 [Frank Denis](https://github.com/jedisct1) & All Other Contributors
 For This Awesome [Project](https://github.com/DNSCrypt/dnscrypt-proxy)
