@@ -18,9 +18,9 @@ title()
 if ! [[ ${UID} == 0 ]]
 then
 	clear && title
-	echo -e "--------------------------"
-	echo -e "| Run The Script As Root |"
-	echo -e "--------------------------"
+	echo -e "--------------------------------------"
+	echo -e "| Please Execute This With Privilege |"
+	echo -e "--------------------------------------"
 
 else	
 	clear && title
@@ -35,9 +35,9 @@ else
 	if [[ ${input} == 1 ]]
 	then
 		clear && title
-		echo -e "-------------------------------------------"
-		echo -e "| Downloading & Installing DNSCrypt-Proxy |"
-		echo -e "-------------------------------------------"
+		echo -e "------------------------------------"
+		echo -e "| Installing Latest DNSCrypt-Proxy |"
+		echo -e "------------------------------------"
 
 		if [[ ${march} == "aarch64" ]]
 		then
@@ -59,7 +59,7 @@ else
 		echo -e "| Initializing Hardened-Anonymized-DNSCrypt-Proxy |"
 		echo -e "---------------------------------------------------"
 		cp -rf *service* *socket* /usr/lib/systemd/system/
-		systemctl daemon-reload && systemctl enable --now ${pkgname}.{socket,service} -f
+		systemctl daemon-reload && systemctl enable --now ${pkgname}.{service,socket} -f
 
 		echo -e "--------------------------------------------------------------"
 		echo -e "| Applying Hardened-Anonymized-DNSCrypt-Proxy Configurations |"
@@ -94,13 +94,13 @@ else
 		echo -e "------------------------------------------------"
 		echo -e "| Disabling Hardened-Anonymized-DNSCrypt-Proxy |"
 		echo -e "------------------------------------------------"
-		systemctl daemon-reload && systemctl disable --now ${pkgname}.{socket,service} -f
+		systemctl daemon-reload && systemctl disable --now ${pkgname}.{service,socket} -f
 
 		echo -e "-------------------------------"
 		echo -e "| Uninstalling DNSCrypt-Proxy |"
 		echo -e "-------------------------------"
 		rm -rf /usr/bin/${pkgname}
-		rm -rf /usr/lib/systemd/system/${pkgname}.{socket,service}
+		rm -rf /usr/lib/systemd/system/${pkgname}.{service,socket}
 		
 		echo -e "---------------------------------------------------------------"
 		echo -e "| Reverting Hardened-Anonymized-DNSCrypt-Proxy Configurations |"
@@ -143,8 +143,7 @@ else
 		echo -e "-------------------------------------------------"
 		echo -e "| Restarting Hardened-Anonymized-DNSCrypt-Proxy |"
 		echo -e "-------------------------------------------------"
-		cp -rf *service* /usr/lib/systemd/system/
-		systemctl daemon-reload && systemctl restart --now ${pkgname}.{socket,service} -f
+		systemctl daemon-reload && systemctl restart --now ${pkgname}.{service,socket} -f
 
 		echo -e "--------------------------------------------------"
 		echo -e "| Restarting NetworkManager & Necessary Services |"
