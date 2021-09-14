@@ -80,9 +80,10 @@ else
 		echo -e "ethernet.cloned-mac-address=random" >> /etc/NetworkManager/NetworkManager.conf
 		echo -e "wifi.cloned-mac-address=random" >> /etc/NetworkManager/NetworkManager.conf
 		echo -e "[connectivity]\n.set.enabled=false" >> /var/lib/NetworkManager/NetworkManager-intern.conf
-		systemctl daemon-reload && systemctl restart --now NetworkManager -f
 		echo -e "nameserver 127.0.0.1\noptions edns0 single-request-reopen" > /etc/resolv.conf
-			
+		systemctl daemon-reload && systemctl disable --now NetworkManager-{dispatcher,wait-online} -f
+		systemctl daemon-reload && systemctl restart --now NetworkManager -f
+					
 		echo -e "--------------------------------------"
 		echo -e "| Hardened-Anonymized-DNSCrypt-Proxy |"
 		echo -e "|     Successfully Configured !      |"
@@ -123,6 +124,7 @@ else
 		echo -e "ethernet.cloned-mac-address=random" >> /etc/NetworkManager/NetworkManager.conf
 		echo -e "wifi.cloned-mac-address=random" >> /etc/NetworkManager/NetworkManager.conf
 		echo -e "[connectivity]\n.set.enabled=false" >> /var/lib/NetworkManager/NetworkManager-intern.conf
+		systemctl daemon-reload && systemctl disable --now NetworkManager-{dispatcher,wait-online} -f
 		systemctl daemon-reload && systemctl restart --now NetworkManager -f
 
 		echo -e "--------------------------------------"
