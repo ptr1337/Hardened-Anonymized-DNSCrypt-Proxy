@@ -18,7 +18,7 @@ But For Linux, People Find It Hard To Configure DNSCrypt-Proxy Manually. But I W
 
 ## Supported Linux Distributions
 
-`Any SystemD Based Linux Distro`
+`Any SystemD Based Linux Distro With NetworkManager`
 
 
 ## Differences From The Main DNSCrypt-Proxy Project
@@ -61,15 +61,15 @@ But For Linux, People Find It Hard To Configure DNSCrypt-Proxy Manually. But I W
 
 ## DNS Leak Testing [Websites]
 
-- [BrowserLeaks](https://anon.to/?http://browserleaks.com/dns)
-- [IPLeak](https://anon.to/?http://ipleak.net)
-- [DNSLeakTest](https://anon.to/?https://www.dnsleaktest.com)
+- [BrowserLeaks](https://browserleaks.com/dns)
+- [IPLeak](https://ipleak.net)
+- [DNSLeakTest](https://dnsleaktest.com)
 
 
-## Configuration (Post Installing)
+## Configuration [Post Installing]
 
-- You can edit `dnscrypt-proxy.toml` as you wish located on `/etc/dnscrypt-proxy/dnscrypt-proxy.toml`.
-- For more detailed configuration please refer to [official documentation](https://github.com/DNSCrypt/dnscrypt-proxy/wiki/Configuration).
+- You can edit `dnscrypt-proxy.toml` as you wish located on `/etc/dnscrypt-proxy/dnscrypt-proxy.toml`
+- For more detailed configuration please refer to [official documentation](https://github.com/DNSCrypt/dnscrypt-proxy/wiki/Configuration)
 
 
 ## Credits
