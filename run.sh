@@ -55,10 +55,8 @@ cp -rf $pkgname.toml /etc/$pkgname
 echo -e "-------------------------------------------"
 echo -e "| Configuring & Restarting NetworkManager |"
 echo -e "-------------------------------------------"
-rm -rf /etc/*resolv*
-rm -rf /etc/NetworkManager/conf.d/*
-rm -rf /var/lib/NetworkManager/*conf*
-rm -rf /etc/NetworkManager/*NetworkManager*
+rm -rf /etc/*resolv* /etc/NetworkManager/conf.d/*
+rm -rf /etc/NetworkManager/*NetworkManager* /var/lib/NetworkManager/*conf*
 echo -e "[main]\ndns=none\n" >>/etc/NetworkManager/NetworkManager.conf
 echo -e "[device]\nwifi.scan-rand-mac-address=yes" >>/etc/NetworkManager/NetworkManager.conf
 echo -e "ethernet.cloned-mac-address=random" >>/etc/NetworkManager/NetworkManager.conf
@@ -80,8 +78,7 @@ systemctl daemon-reload&&systemctl disable --now $pkgname.{service,socket} -f
 echo -e "-------------------------------"
 echo -e "| Uninstalling DNSCrypt-Proxy |"
 echo -e "-------------------------------"
-rm -rf /usr/bin/$pkgname
-rm -rf /usr/lib/systemd/system/$pkgname.{service,socket}
+rm -rf /usr/bin/$pkgname /usr/lib/systemd/system/$pkgname.{service,socket}
 echo -e "---------------------------------------------------------------"
 echo -e "| Reverting Hardened-Anonymized-DNSCrypt-Proxy Configurations |"
 echo -e "---------------------------------------------------------------"
@@ -93,10 +90,8 @@ systemctl daemon-reload&&systemctl enable --now systemd-resolved -f
 echo -e "-------------------------------------------"
 echo -e "| Configuring & Restarting NetworkManager |"
 echo -e "-------------------------------------------"
-rm -rf /etc/*resolv*
-rm -rf /etc/NetworkManager/conf.d/*
-rm -rf /var/lib/NetworkManager/*conf*
-rm -rf /etc/NetworkManager/*NetworkManager*
+rm -rf /etc/*resolv* /etc/NetworkManager/conf.d/*
+rm -rf /etc/NetworkManager/*NetworkManager* /var/lib/NetworkManager/*conf*
 echo -e "[device]\nwifi.scan-rand-mac-address=yes" >>/etc/NetworkManager/NetworkManager.conf
 echo -e "ethernet.cloned-mac-address=random" >>/etc/NetworkManager/NetworkManager.conf
 echo -e "wifi.cloned-mac-address=random" >>/etc/NetworkManager/NetworkManager.conf
