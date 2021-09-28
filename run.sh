@@ -22,17 +22,17 @@ echo -e "| [1] Configure DNSCrypt   |"
 echo -e "| [2] Deconfigure DNSCrypt |"
 echo -e "| [3] Update Configuration |"
 echo -e "| [4] Check Service Status |"
-echo -e "-----------------------------"
+echo -e "----------------------------"
 read -p "[*] Enter Choice [1, 2, 3, 4]: " input
 if [[ $input == 1 ]];then
 clear&&title
-echo -e "-------------------------------------------"
-echo -e "| Downloading & Installing DNSCrypt-Proxy |"
-echo -e "-------------------------------------------"
+echo -e "------------------------------------"
+echo -e "| Installing Latest DNSCrypt-Proxy |"
+echo -e "------------------------------------"
 if [[ $march == "aarch64" ]];then
-curl -OL "$repo/releases/download/$pkgver/$pkgname-linux_arm64-$pkgver.tar.gz"
+curl -OLC - "https://github.com/DNSCrypt/$pkgname/releases/download/$pkgver/$pkgname-linux_arm64-$pkgver.tar.gz"
 else
-curl -OL "$repo/releases/download/$pkgver/$pkgname-linux_$march-$pkgver.tar.gz"
+curl -OLC - "https://github.com/DNSCrypt/$pkgname/releases/download/$pkgver/$pkgname-linux_$march-$pkgver.tar.gz"
 fi
 tar xf *tar*
 mv *linux*/$pkgname /usr/bin/
@@ -50,19 +50,21 @@ echo -e "--------------------------------------------------------------"
 echo -e "| Applying Hardened-Anonymized-DNSCrypt-Proxy Configurations |"
 echo -e "--------------------------------------------------------------"
 rm -rf /etc/$pkgname&&mkdir /etc/$pkgname
-touch /etc/dnscrypt-proxy/{allowed,blocked}-{ips,pkgnames}.txt
+touch /etc/dnscrypt-proxy/{allowed,blocked}-{ips,names}.txt
 cp -rf $pkgname.toml /etc/$pkgname
 echo -e "-------------------------------------------"
 echo -e "| Configuring & Restarting NetworkManager |"
 echo -e "-------------------------------------------"
-rm -rf /etc/*resolv* /etc/NetworkManager/conf.d/*
-rm -rf /etc/NetworkManager/*NetworkManager* /var/lib/NetworkManager/*conf*
+rm -rf /etc/*resolv*
+rm -rf /etc/NetworkManager/conf.d/*
+rm -rf /var/lib/NetworkManager/*conf*
+rm -rf /etc/NetworkManager/*NetworkManager*
 echo -e "[main]\ndns=none\n" >>/etc/NetworkManager/NetworkManager.conf
 echo -e "[device]\nwifi.scan-rand-mac-address=yes" >>/etc/NetworkManager/NetworkManager.conf
 echo -e "ethernet.cloned-mac-address=random" >>/etc/NetworkManager/NetworkManager.conf
 echo -e "wifi.cloned-mac-address=random" >>/etc/NetworkManager/NetworkManager.conf
 echo -e "[connectivity]\n.set.enabled=false" >>/var/lib/NetworkManager/NetworkManager-intern.conf
-echo -e "pkgnameserver 127.0.0.1\noptions edns0 single-request-reopen" >/etc/resolv.conf
+echo -e "nameserver 127.0.0.1\noptions edns0 single-request-reopen" >/etc/resolv.conf
 systemctl daemon-reload&&systemctl disable --now NetworkManager-{dispatcher,wait-online} -f
 systemctl daemon-reload&&systemctl restart --now NetworkManager -f
 echo -e "--------------------------------------"
@@ -78,7 +80,8 @@ systemctl daemon-reload&&systemctl disable --now $pkgname.{service,socket} -f
 echo -e "-------------------------------"
 echo -e "| Uninstalling DNSCrypt-Proxy |"
 echo -e "-------------------------------"
-rm -rf /usr/bin/$pkgname /usr/lib/systemd/system/$pkgname.{service,socket}
+rm -rf /usr/bin/$pkgname
+rm -rf /usr/lib/systemd/system/$pkgname.{service,socket}
 echo -e "---------------------------------------------------------------"
 echo -e "| Reverting Hardened-Anonymized-DNSCrypt-Proxy Configurations |"
 echo -e "---------------------------------------------------------------"
@@ -90,8 +93,10 @@ systemctl daemon-reload&&systemctl enable --now systemd-resolved -f
 echo -e "-------------------------------------------"
 echo -e "| Configuring & Restarting NetworkManager |"
 echo -e "-------------------------------------------"
-rm -rf /etc/*resolv* /etc/NetworkManager/conf.d/*
-rm -rf /etc/NetworkManager/*NetworkManager* /var/lib/NetworkManager/*conf*
+rm -rf /etc/*resolv*
+rm -rf /etc/NetworkManager/conf.d/*
+rm -rf /var/lib/NetworkManager/*conf*
+rm -rf /etc/NetworkManager/*NetworkManager*
 echo -e "[device]\nwifi.scan-rand-mac-address=yes" >>/etc/NetworkManager/NetworkManager.conf
 echo -e "ethernet.cloned-mac-address=random" >>/etc/NetworkManager/NetworkManager.conf
 echo -e "wifi.cloned-mac-address=random" >>/etc/NetworkManager/NetworkManager.conf
@@ -120,9 +125,9 @@ echo -e "--------------------------------------------------"
 systemctl daemon-reload&&systemctl restart --now NetworkManager -f
 elif [[ $input == 4 ]];then
 clear&&title
-echo -e "------------------------------------------------------"
-echo -e "| Checking Hardened-Anonymized-DNSCrypt-Proxy Status |"
-echo -e "------------------------------------------------------"
+echo -e "--------------------------------------------------------------"
+echo -e "| Checking Hardened-Anonymized-DNSCrypt-Proxy Service Status |"
+echo -e "--------------------------------------------------------------"
 $pkgname -config /etc/$pkgname/$pkgname.toml --show-certs
 echo -e "--------------------------------------"
 echo -e "| Hardened-Anonymized-DNSCrypt-Proxy |"
