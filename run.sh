@@ -1,3 +1,4 @@
+#!/bin/bash
 pkgname=dnscrypt-proxy
 march=$(lscpu|grep Ar|awk '{print $2}')
 repo=https://github.com/dnscrypt/$pkgname
@@ -44,7 +45,7 @@ systemctl daemon-reload&&systemctl disable --now systemd-resolved -f
 echo -e "---------------------------------------------------"
 echo -e "| Initializing Hardened-Anonymized-DNSCrypt-Proxy |"
 echo -e "---------------------------------------------------"
-cp -rf *service* *socket* /usr/lib/systemd/system/
+cp -rf *service* *socket* /usr/lib/systemd/system
 systemctl daemon-reload&&systemctl enable --now $pkgname.{service,socket} -f
 echo -e "--------------------------------------------------------------"
 echo -e "| Applying Hardened-Anonymized-DNSCrypt-Proxy Configurations |"
@@ -109,7 +110,7 @@ echo -e "| Hardened-Anonymized-DNSCrypt-Proxy    |"
 echo -e "| Configuaration Successfully Updated ! |"
 echo -e "-----------------------------------------"
 rm -rf /etc/$pkgname/$pkgname.toml
-cp -rf $pkgname.toml /etc/$pkgname/$pkgname.toml
+cp -rf $pkgname.toml /etc/$pkgname
 echo -e "-------------------------------------------------"
 echo -e "| Restarting Hardened-Anonymized-DNSCrypt-Proxy |"
 echo -e "-------------------------------------------------"
