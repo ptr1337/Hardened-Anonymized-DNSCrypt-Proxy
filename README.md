@@ -18,7 +18,7 @@ But For Linux, People Find It Hard To Configure DNSCrypt-Proxy Manually. But I W
 
 ## Supported Linux Distributions
 
-`Any SystemD Based Linux Distro With NetworkManager`
+`Any Linux/Distro With SystemD & NetworkManager`
 
 
 ## Differences From The Main DNSCrypt-Proxy Project
