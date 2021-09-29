@@ -18,7 +18,7 @@ But For Linux, People Find It Hard To Configure DNSCrypt-Proxy Manually. But I W
 
 ## Supported Linux Distributions
 
-`Any Linux/Distro With SystemD & NetworkManager`
+`Any Linux Distro With SystemD & NetworkManager`
 
 
 ## Differences From The Main DNSCrypt-Proxy Project
@@ -61,7 +61,7 @@ But For Linux, People Find It Hard To Configure DNSCrypt-Proxy Manually. But I W
 
 ## DNS Leak Testing [Websites]
 
-- [IPLeak](https:ipleak.net)
+- [IPLeak](https://ipleak.net)
 - [DNSLeakTest](https://www.dnsleaktest.com)
 - [BrowserLeaks](https://browserleaks.com/dns)
 
