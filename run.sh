@@ -3,7 +3,7 @@ pkgname=dnscrypt-proxy
 march=$(lscpu|grep Ar|awk '{print $2}')
 repo=https://github.com/dnscrypt/$pkgname
 api=https://api.github.com/repos/dnscrypt/$pkgname
-pkgver=$(curl -s $api/releases/latest|jq -r .tag_name)
+pkgver=$(curl -s $api/releases/latest|grep _n|cut -d\" -f4
 title(){
 echo -e "--------------------------------------"
 echo -e "| Hardened-Anonymized-DNSCrypt-Proxy |"
