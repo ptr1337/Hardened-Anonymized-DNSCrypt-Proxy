@@ -23,7 +23,7 @@ But For Linux, People Find It Hard To Configure DNSCrypt-Proxy Manually. But I W
 
 ## Differences From The Main DNSCrypt-Proxy Project
 
-- `server_names` = `acsacsar-ams-ipv4` [NLD], `altername` [RUS], `ams-dnscrypt-nl` [NLD], `bcn-dnscrypt` [ESP], `d0wn-tz-ns1` [TZA], `dct-ru1` [RUS], `dct-ru2` [RUS], `dns.watch` [DEU], `dnscrypt.be` [BEL], `dnscrypt.ca-1` [CAN], `dnscrypt.ca-2` [CAN], `dnscrypt.eu-nl` [NLD], `dnscrypt.pl` [POL], `dnscrypt.uk-ipv4` [GBR], `gombadi-syd` [AUS], `meganerd` [NLD], `moulticast-ca-ipv4` [CAN], `moulticast-de-ipv4` [DEU], `moulticast-fr-ipv4` [FRA], `moulticast-sg-ipv4` [SGP], `moulticast-uk-ipv4` [GBR], `pf-dnscrypt` [CHE], `plan9-dns` [USA], `plan9-ns2` [USA], `pryv8boi` [DEU], `pwoss.org-dnscrypt` [DEU], `resolver4.dns.openinternet.io` [USA], `scaleway-ams` [NLD], `scaleway-fr` [FRA], `serbica` [NLD], `v.dnscrypt.uk-ipv4` [GBR], `zackptg5-us-il-ipv4` [USA], `zackptg5-us-pit-ipv4` [USA] are the resolvers in use.
+- `server_names` = `acsacsar-ams-ipv4` [NLD], `altername` [RUS], `ams-dnscrypt-nl` [NLD], `bcn-dnscrypt` [ESP], `d0wn-tz-ns1` [TZA], `dct-ru1` [RUS], `dct-ru2` [RUS], `dns.watch` [DEU], `dnscrypt.be` [BEL], `dnscrypt.ca-1` [CAN], `dnscrypt.ca-2` [CAN], `dnscrypt.eu-nl` [NLD], `dnscrypt.pl` [POL], `dnscrypt.uk-ipv4` [GBR], `gombadi-syd` [AUS], `meganerd` [NLD], `moulticast-ca-ipv4` [CAN], `moulticast-de-ipv4` [DEU], `moulticast-fr-ipv4` [FRA], `moulticast-sg-ipv4` [SGP], `moulticast-uk-ipv4` [GBR], `pf-dnscrypt` [CHE], `plan9-dns` [USA], `plan9-ns2` [USA], `pryv8boi` [DEU], `pwoss.org-dnscrypt` [DEU], `resolver4.dns.openinternet.io` [USA], `scaleway-ams` [NLD], `scaleway-fr` [FRA], `serbica` [NLD], `v.dnscrypt.uk-ipv4` [GBR], `zackptg5-us-il-ipv4` [USA] are the resolvers in use.
 
 - `doh_servers` = `false` (disable servers implementing the `DNS-over-HTTPS` protocol)
 
@@ -59,10 +59,12 @@ But For Linux, People Find It Hard To Configure DNSCrypt-Proxy Manually. But I W
     chmod +x run.sh && sudo ./run.sh
     ### Filters (optional)
 
+
 ## Filters [Optional]
 
 Filters are a powerful set of built-in features, that let you control exactly what domain names and IP addresses your device are allowed to connect to. This can be used to block ads, trackers, malware, or anything you don't want your device to load.
 To know more about it, you can check the official documentation [DNSCrypt-Proxy-Filters](https://github.com/DNSCrypt/dnscrypt-proxy/wiki/Filters)
+
 
 ## DNS Leak Testing [Websites]
 
