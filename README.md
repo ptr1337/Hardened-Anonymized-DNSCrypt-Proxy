@@ -57,7 +57,12 @@ But For Linux, People Find It Hard To Configure DNSCrypt-Proxy Manually. But I W
     git clone https://github.com/BL4CKH47H4CK3R/Hardened-Anonymized-DNSCrypt-Proxy
     cd "$(basename "$_" .git)"
     chmod +x run.sh && sudo ./run.sh
-    
+    ### Filters (optional)
+
+## Filters
+
+Filters are a powerful set of built-in features, that let you control exactly what domain names and IP addresses your device are allowed to connect to. This can be used to block ads, trackers, malware, or anything you don't want your device to load.
+To know more about it, you can check the official documentation [DNSCrypt-Proxy-Filters](https://github.com/DNSCrypt/dnscrypt-proxy/wiki/Filters)
 
 ## DNS Leak Testing [Websites]
 
