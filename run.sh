@@ -25,7 +25,7 @@ echo -e "| [3] Update Configuration   |"
 echo -e "| [4] Check Service Status   |"
 echo -e "| [5] Enforce DNSCrypt Rules |"
 echo -e "------------------------------"
-read -p "[*] Enter Choice [1, 2, 3, 4]: " input
+read -p "[*] Enter Choice [1, 2, 3, 4, 5]: " input
 if [[ $input == 1 ]];then
 clear&&title
 echo -e "-------------------------------------------"
