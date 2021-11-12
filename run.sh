@@ -18,12 +18,13 @@ echo -e "| Please Execute This With Privilege |"
 echo -e "--------------------------------------"
 else
 clear&&title
-echo -e "----------------------------"
-echo -e "| [1] Configure DNSCrypt   |"
-echo -e "| [2] Deconfigure DNSCrypt |"
-echo -e "| [3] Update Configuration |"
-echo -e "| [4] Check Service Status |"
-echo -e "----------------------------"
+echo -e "------------------------------"
+echo -e "| [1] Configure DNSCrypt     |"
+echo -e "| [2] Deconfigure DNSCrypt   |"
+echo -e "| [3] Update Configuration   |"
+echo -e "| [4] Check Service Status   |"
+echo -e "| [5] Enforce DNSCrypt Rules |"
+echo -e "------------------------------"
 read -p "[*] Enter Choice [1, 2, 3, 4]: " input
 if [[ $input == 1 ]];then
 clear&&title
@@ -56,14 +57,14 @@ cp -rf $pkgname.toml /etc/$pkgname
 echo -e "-------------------------------------------"
 echo -e "| Configuring & Restarting NetworkManager |"
 echo -e "-------------------------------------------"
-rm -rf /etc/*resolv* /etc/NetworkManager/conf.d/*
+chattr -i /etc/*resolv*&&rm -rf /etc/*resolv* /etc/NetworkManager/conf.d/*
 rm -rf /etc/NetworkManager/*NetworkManager* /var/lib/NetworkManager/*conf*
 echo -e "[main]\ndns=none\n" >>/etc/NetworkManager/NetworkManager.conf
 echo -e "[device]\nwifi.scan-rand-mac-address=yes" >>/etc/NetworkManager/NetworkManager.conf
 echo -e "ethernet.cloned-mac-address=random" >>/etc/NetworkManager/NetworkManager.conf
 echo -e "wifi.cloned-mac-address=random" >>/etc/NetworkManager/NetworkManager.conf
 echo -e "[connectivity]\n.set.enabled=false" >>/var/lib/NetworkManager/NetworkManager-intern.conf
-echo -e "nameserver 127.0.0.1\noptions edns0 single-request-reopen" >/etc/resolv.conf
+echo -e "nameserver 127.0.0.1\noptions edns0 single-request-reopen" >/etc/resolv.conf&&chattr +i /etc/*resolv*
 systemctl daemon-reload&&systemctl disable --now NetworkManager-{dispatcher,wait-online} -f
 systemctl daemon-reload&&systemctl restart --now NetworkManager -f
 echo -e "--------------------------------------"
@@ -84,14 +85,10 @@ echo -e "---------------------------------------------------------------"
 echo -e "| Reverting Hardened-Anonymized-DNSCrypt-Proxy Configurations |"
 echo -e "---------------------------------------------------------------"
 rm -rf /etc/$pkgname
-echo -e "-------------------------------------"
-echo -e "| Enabling SystemD-Resolved Service |"
-echo -e "-------------------------------------"
-systemctl daemon-reload&&systemctl enable --now systemd-resolved -f
 echo -e "-------------------------------------------"
 echo -e "| Configuring & Restarting NetworkManager |"
 echo -e "-------------------------------------------"
-rm -rf /etc/*resolv* /etc/NetworkManager/conf.d/*
+chattr -i /etc/*resolv*&&rm -rf /etc/*resolv* /etc/NetworkManager/conf.d/*
 rm -rf /etc/NetworkManager/*NetworkManager* /var/lib/NetworkManager/*conf*
 echo -e "[device]\nwifi.scan-rand-mac-address=yes" >>/etc/NetworkManager/NetworkManager.conf
 echo -e "ethernet.cloned-mac-address=random" >>/etc/NetworkManager/NetworkManager.conf
@@ -128,6 +125,18 @@ $pkgname -config /etc/$pkgname/$pkgname.toml --show-certs
 echo -e "--------------------------------------"
 echo -e "| Hardened-Anonymized-DNSCrypt-Proxy |"
 echo -e "|       Successfully Checked !       |"
+echo -e "--------------------------------------"
+elif [[ $input == 5 ]];then
+clear&&title
+echo -e "------------------------------------------------------"
+echo -e "| Enforcing Hardened-Anonymized-DNSCrypt-Proxy Rules |"
+echo -e "------------------------------------------------------"
+chattr -i /etc/*resolv*&&rm -rf /etc/*resolv*
+echo -e "nameserver 127.0.0.1\noptions edns0 single-request-reopen" >/etc/resolv.conf
+chattr +i /etc/*resolv*
+echo -e "--------------------------------------"
+echo -e "| Hardened-Anonymized-DNSCrypt-Proxy |"
+echo -e "|       Successfully Enforced !      |"
 echo -e "--------------------------------------"
 fi
 fi
